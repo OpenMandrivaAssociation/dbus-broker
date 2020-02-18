@@ -1,3 +1,4 @@
+%define _userunitdir /lib/systemd/
 %define api 1
 %define major 3
 %define libname %mklibname dbus- %{api} %{major}
@@ -5,7 +6,7 @@
 
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
-Version:	21
+Version:	22
 Release:	1
 License:	ASL 2.0
 Group:		System/Servers
@@ -41,3 +42,8 @@ recent Linux kernel releases.
 %meson_install
 
 %files
+%{_bindir}/dbus-broker
+%{_bindri}/dbus-broker-launch
+%{_userunitdir}/catalog/dbus-broker-launch.catalog
+%{_userunitdir}/catalog/dbus-broker.catalog
+%{_userunitdir}/user/dbus-broker.service
