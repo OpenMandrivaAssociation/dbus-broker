@@ -43,7 +43,7 @@ recent Linux kernel releases.
 
 %files
 %{_bindir}/dbus-broker
-%{_bindri}/dbus-broker-launch
-%{_userunitdir}/catalog/dbus-broker-launch.catalog
-%{_userunitdir}/catalog/dbus-broker.catalog
-%{_userunitdir}/user/dbus-broker.service
+%{_bindir}/dbus-broker-launch
+#%{_userunitdir}/catalog/dbus-broker-launch.catalog
+#%{_userunitdir}/catalog/dbus-broker.catalog
+#%{_userunitdir}/user/dbus-broker.service
