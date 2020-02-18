@@ -1,4 +1,4 @@
-%define _userunitdir /lib/systemd/
+
 %define api 1
 %define major 3
 %define libname %mklibname dbus- %{api} %{major}
@@ -44,7 +44,7 @@ recent Linux kernel releases.
 %files
 %{_bindir}/dbus-broker
 %{_bindir}/dbus-broker-launch
-#%{_usernitdir}/catalog/dbus-broker-launch.catalog
-#%{_userunitdir}/catalog/dbus-broker.catalog
-#%{_userunitdir}/user/dbus-broker.service
-#/lib/systemd/system/dbus-broker.service
+/lib/systemd/system/dbus-broker.service
+/usr/lib/systemd/catalog/dbus-broker-launch.catalog
+/usr/lib/systemd/catalog/dbus-broker.catalog
+/usr/lib/systemd/user/dbus-broker.service
