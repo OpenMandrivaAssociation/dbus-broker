@@ -101,6 +101,18 @@ if [ $2 -eq 0 ]; then
     systemctl --no-reload --global enable dbus-broker.service || :
 fi
 
+%triggerin -- setup
+if [ $1 -ge 2 -o $2 -ge 2 ]; then
+
+    if ! getent group messagebus >/dev/null 2>&1; then
+	groupadd -r messagebus 2>/dev/null || :
+    fi
+
+    if ! getent passwd messagebus >/dev/null 2>&1; then
+	useradd -r -g messagebus -d '/' -s /sbin/nologin -c "System message bus" messagebus 2>/dev/null ||:
+    fi
+fi
+
 %files
 %{_presetdir}/86-%{name}.preset
 %{_bindir}/dbus-broker
