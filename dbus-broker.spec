@@ -7,7 +7,7 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	22
-Release:	"BIG FAT WARNING !!! Consult TPG before you build this package. It needs lot of changes inside dbus package prior to release this one"
+Release:	2
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
