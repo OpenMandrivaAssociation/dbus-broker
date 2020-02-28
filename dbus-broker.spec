@@ -75,7 +75,7 @@ if [ $1 -eq 1 ] ; then
 	mkdir -p /run/systemd/system-generators/
 	cat >>/run/systemd/system-generators/dbus-symlink-generator <<EOF
 #!/bin/sh
-ln -s /usr/lib/systemd/system/dbus-daemon.service \$2/dbus.service
+ln -s %{_unitdir}/dbus-daemon.service \$2/dbus.service
 EOF
 	chmod +x /run/systemd/system-generators/dbus-symlink-generator
 	chcon system_u:object_r:init_exec_t:s0 /run/systemd/system-generators/dbus-symlink-generator || :
@@ -84,7 +84,7 @@ EOF
 	mkdir -p /run/systemd/user-generators/
 	cat >>/run/systemd/user-generators/dbus-symlink-generator <<EOF
 #!/bin/sh
-ln -s /usr/lib/systemd/user/dbus-daemon.service \$2/dbus.service
+ln -s %{_userunitdir}/dbus-daemon.service \$2/dbus.service
 EOF
 	chmod +x /run/systemd/user-generators/dbus-symlink-generator
     fi
