@@ -20,6 +20,7 @@ BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libcap-ng)
 Requires:	dbus-common
+Requires(pre):	shadow
 %{?systemd_requires}
 %rename dbus
 
