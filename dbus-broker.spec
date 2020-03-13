@@ -7,7 +7,7 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	22
-Release:	2
+Release:	3
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
@@ -19,6 +19,7 @@ BuildRequires:	pkgconfig(audit)
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libcap-ng)
+Requires:	dbus-common
 %{?systemd_requires}
 %rename dbus
 
@@ -28,7 +29,6 @@ specification. Its aim is to provide high performance and reliability, while
 keeping compatibility to the D-Bus reference implementation. It is exclusively
 written for Linux systems, and makes use of many modern features provided by
 recent Linux kernel releases.
-
 
 %prep
 %setup -q
