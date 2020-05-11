@@ -6,8 +6,8 @@
 
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
-Version:	22
-Release:	3
+Version:	23
+Release:	1
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
@@ -32,7 +32,7 @@ written for Linux systems, and makes use of many modern features provided by
 recent Linux kernel releases.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 %serverbuild_hardened
