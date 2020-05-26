@@ -19,6 +19,7 @@ BuildRequires:	pkgconfig(audit)
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libcap-ng)
+BuildRequires:	pkgconfig(audit)
 Requires:	dbus-common
 Requires(pre):	shadow
 %{?systemd_requires}
@@ -36,7 +37,7 @@ recent Linux kernel releases.
 
 %build
 %serverbuild_hardened
-%meson -Dselinux=false -Daudit=false -Ddocs=false -Dsystem-console-users=gdm -Dlinux-4-17=true
+%meson -Dselinux=false -Daudit=true -Ddocs=false -Dsystem-console-users=gdm,sddm,lightdm,lxdm -Dlinux-4-17=true
 
 %meson_build
 
