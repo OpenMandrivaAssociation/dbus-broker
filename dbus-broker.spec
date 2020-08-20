@@ -7,7 +7,7 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	23
-Release:	1
+Release:	2
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
@@ -65,46 +65,30 @@ fi
 exit 0
 
 %post
-# systemd has special checks if dbus.socket and dbus.service are active and
-# will close the dbus connection if they are not. When the symlinks are changed
-# from dbus-daemon to dbus-broker, systemd would think that dbus is gone,
-# because dbus.service (which now is an alias for dbus-broker.service) is not
-# active. Let's add a temporary override that will keep pid1 happy.
-if [ $1 -eq 1 ] ; then
-    if systemctl is-enabled -q dbus-daemon.service; then
-# Install a temporary generator that'll keep providing the
-# alias as it was.
-	mkdir -p /run/systemd/system-generators/
-	cat >>/run/systemd/system-generators/dbus-symlink-generator <<EOF
-#!/bin/sh
-ln -s %{_unitdir}/dbus-daemon.service \$2/dbus.service
-EOF
-	chmod +x /run/systemd/system-generators/dbus-symlink-generator
-	chcon system_u:object_r:init_exec_t:s0 /run/systemd/system-generators/dbus-symlink-generator || :
-    fi
-    if systemctl is-enabled -q --global dbus-daemon.service; then
-	mkdir -p /run/systemd/user-generators/
-	cat >>/run/systemd/user-generators/dbus-symlink-generator <<EOF
-#!/bin/sh
-ln -s %{_userunitdir}/dbus-daemon.service \$2/dbus.service
-EOF
-	chmod +x /run/systemd/user-generators/dbus-symlink-generator
-    fi
+%systemd_post dbus-broker.service
+%systemd_user_post dbus-broker.service
+%journal_catalog_update
 
-    systemctl --no-reload -q disable dbus-daemon.service || :
-    systemctl --no-reload -q --global disable dbus-daemon.service || :
-    systemctl --no-reload -q enable dbus-broker.service || :
-    systemctl --no-reload -q --global enable dbus-broker.service || :
-fi
+%preun
+%systemd_preun dbus-broker.service
+%systemd_user_preun dbus-broker.service
+
+%postun
+%systemd_postun dbus-broker.service
+%systemd_user_postun dbus-broker.service
 
 %triggerpostun -- dbus-daemon
-if [ $2 -eq 0 ]; then
-    systemctl --no-reload enable dbus-broker.service || :
-    systemctl --no-reload --global enable dbus-broker.service || :
+if [ $2 -eq 0 ] ; then
+# The `dbus-daemon` package used to provide the default D-Bus
+# implementation. We continue to make sure that if you uninstall it, we
+# re-evaluate whether to enable dbus-broker to replace it. If we didnt,
+# you might end up without any bus implementation active.
+    systemctl --no-reload          preset dbus-broker.service || :
+    systemctl --no-reload --global preset dbus-broker.service || :
 fi
 
 %triggerin -- setup
-if [ $1 -ge 2 -o $2 -ge 2 ]; then
+if [ $1 -ge 2 ] || [ $2 -ge 2 ]; then
 
     if ! getent group messagebus >/dev/null 2>&1; then
 	groupadd -r messagebus 2>/dev/null || :
