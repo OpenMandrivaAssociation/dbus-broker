@@ -1,0 +1,58 @@
+From de03b7098bce71095673c21042a8f4b4f7c8c988 Mon Sep 17 00:00:00 2001
+From: David Rheinsberg <david.rheinsberg@gmail.com>
+Date: Thu, 2 Jul 2020 12:27:50 +0200
+Subject: [PATCH] broker: fix some error-paths to be more verbose
+
+A set of 3 error-path fixes. The first two fix `dbus-broker` from using
+the default exit-path for audit/selinux initialization failures, and
+thus properly printing debug messages.
+
+The third fix changes `sd_event_loop()` to fold the return code. It uses
+a separate error-domain, so we should always properly fold and
+participaite in the error-trace.
+
+Signed-off-by: David Rheinsberg <david.rheinsberg@gmail.com>
+---
+ src/broker/main.c     | 12 ++++++++----
+ src/launch/launcher.c |  2 +-
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/src/broker/main.c b/src/broker/main.c
+index d76db50..630e610 100644
+--- a/src/broker/main.c
++++ b/src/broker/main.c
+@@ -253,13 +253,17 @@ int main(int argc, char **argv) {
+ 
+         if (main_arg_audit) {
+                 r = util_audit_init_global();
+-                if (r)
+-                        return error_fold(r);
++                if (r) {
++                        r = error_fold(r);
++                        goto exit;
++                }
+         }
+ 
+         r = bus_selinux_init_global();
+-        if (r)
+-                return error_fold(r);
++        if (r) {
++                r = error_fold(r);
++                goto exit;
++        }
+ 
+         r = run();
+ 
+diff --git a/src/launch/launcher.c b/src/launch/launcher.c
+index b1d4e60..5ba9b77 100644
+--- a/src/launch/launcher.c
++++ b/src/launch/launcher.c
+@@ -1404,7 +1404,7 @@ int launcher_run(Launcher *launcher) {
+         if (r < 0)
+                 return error_origin(r);
+         else if (r > 0)
+-                return r;
++                return error_fold(r);
+ 
+         return 0;
+ }

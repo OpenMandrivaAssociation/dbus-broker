@@ -1,0 +1,13 @@
+diff -up dbus-broker-23/src/util/user.c.omv~ dbus-broker-23/src/util/user.c
+--- dbus-broker-23/src/util/user.c.omv~	2020-08-22 17:34:02.846530315 +0200
++++ dbus-broker-23/src/util/user.c	2020-08-22 17:37:38.115932715 +0200
+@@ -295,6 +295,9 @@ int user_charge(User *user, UserCharge *
+         if (!actor)
+                 actor = user;
+ 
++	if(actor->uid == 0) /* root has better ways of breaking the system - let's keep dbus working so we can access systemd's debug interfaces */
++		return 0;
++
+         if (charge->usage) {
+                 c_assert(user == charge->usage->user);
+                 c_assert(actor->uid == charge->usage->uid);
