@@ -6,15 +6,13 @@
 
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
-Version:	23
-Release:	3
+Version:	24
+Release:	1
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
 Source0:	https://github.com/bus1/dbus-broker/releases/download/v%{version}/dbus-broker-%{version}.tar.xz
-Patch0:		https://github.com/bus1/dbus-broker/commit/de03b7098bce71095673c21042a8f4b4f7c8c988.patch
-Patch1:		https://github.com/bus1/dbus-broker/commit/03796aea364771811acc0e52c2bc0b55daa8a2e1.patch
-Patch2:		dbus-broker-23-no-quota-for-root.patch
+Patch0:		dbus-broker-23-no-quota-for-root.patch
 BuildRequires:	meson
 BuildRequires:	systemd-macros
 BuildRequires:	pkgconfig(libsystemd)
