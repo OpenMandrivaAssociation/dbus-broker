@@ -6,7 +6,7 @@
 
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
-Version:	25
+Version:	26
 Release:	1
 License:	ASL 2.0
 Group:		System/Servers
