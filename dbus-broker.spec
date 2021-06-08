@@ -13,17 +13,16 @@ Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
 Source0:	https://github.com/bus1/dbus-broker/releases/download/v%{version}/dbus-broker-%{version}.tar.xz
 Patch0:		dbus-broker-23-no-quota-for-root.patch
+Patch1:		https://raw.githubusercontent.com/clearlinux-pkgs/dbus-broker/master/use-private-network.patch
 BuildRequires:	meson
-BuildRequires:	systemd-macros
+BuildRequires:	systemd-rpm-macros
 BuildRequires:	pkgconfig(libsystemd)
-BuildRequires:	pkgconfig(audit)
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libcap-ng)
-BuildRequires:	pkgconfig(audit)
 Requires:	dbus-common
 Requires(pre):	shadow
-%{?systemd_requires}
+%{?systemd_ordering}
 %rename dbus
 
 %description
@@ -38,7 +37,7 @@ recent Linux kernel releases.
 
 %build
 %serverbuild_hardened
-%meson -Dselinux=false -Daudit=true -Ddocs=false -Dsystem-console-users=gdm,sddm,lightdm,lxdm -Dlinux-4-17=true
+%meson -Dselinux=false -Daudit=false -Ddocs=false -Dsystem-console-users=gdm,sddm,lightdm,lxdm -Dlinux-4-17=true
 
 %meson_build
 
