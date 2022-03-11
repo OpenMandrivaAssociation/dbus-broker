@@ -7,7 +7,7 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	29
-Release:	2
+Release:	3
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
@@ -23,7 +23,6 @@ BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libcap-ng)
 Requires:	dbus-common
 Requires(pre):	shadow
-%{?systemd_ordering}
 %rename dbus
 
 %description
@@ -79,7 +78,7 @@ exit 0
 %systemd_user_postun dbus-broker.service
 
 %triggerpostun -- dbus-daemon
-if [ $2 -eq 0 ] ; then
+if [ $2 -eq 0 ] && [ -x /usr/bin/systemctl ] ; then
 # The `dbus-daemon` package used to provide the default D-Bus
 # implementation. We continue to make sure that if you uninstall it, we
 # re-evaluate whether to enable dbus-broker to replace it. If we didnt,
