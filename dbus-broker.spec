@@ -6,15 +6,14 @@
 
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
-Version:	29
-Release:	3
+Version:	31
+Release:	1
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
 Source0:	https://github.com/bus1/dbus-broker/releases/download/v%{version}/dbus-broker-%{version}.tar.xz
 Patch0:		dbus-broker-23-no-quota-for-root.patch
 Patch1:		https://raw.githubusercontent.com/clearlinux-pkgs/dbus-broker/master/use-private-network.patch
-Patch2:		https://src.fedoraproject.org/rpms/dbus-broker/raw/rawhide/f/28af5ac996c94922fc49660e0efa955f57575187.patch
 BuildRequires:	meson
 BuildRequires:	systemd-rpm-macros
 BuildRequires:	pkgconfig(libsystemd)
