@@ -7,7 +7,7 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	31
-Release:	1
+Release:	2
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
@@ -88,7 +88,6 @@ fi
 
 %triggerin -- setup
 if [ $1 -ge 2 ] || [ $2 -ge 2 ]; then
-
     if ! getent group messagebus >/dev/null 2>&1; then
 	groupadd -r messagebus 2>/dev/null || :
     fi
