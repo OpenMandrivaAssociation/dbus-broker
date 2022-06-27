@@ -1,2 +1,2 @@
 g messagebus - -
-u messagebus "System message bus" / /usr/sbin/nologin
+u messagebus - "System message bus" / /usr/sbin/nologin

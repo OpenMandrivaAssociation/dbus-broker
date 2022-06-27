@@ -7,7 +7,7 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	31
-Release:	4
+Release:	5
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
