@@ -7,11 +7,12 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	31
-Release:	3
+Release:	4
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
 Source0:	https://github.com/bus1/dbus-broker/releases/download/v%{version}/dbus-broker-%{version}.tar.xz
+Source1:	dbus-broker.sysusers
 Patch0:		dbus-broker-23-no-quota-for-root.patch
 Patch1:		https://raw.githubusercontent.com/clearlinux-pkgs/dbus-broker/master/use-private-network.patch
 BuildRequires:	meson
@@ -48,20 +49,14 @@ cat > %{buildroot}%{_presetdir}/86-%{name}.preset << EOF
 enable %{name}.service
 EOF
 
+mkdir -p %{buildroot}%{_sysusersdir}
+install -c -m 644 %{S:1} %{buildroot}%{_sysusersdir}/%{name}.conf
+
 %check
 %meson_test
 
 %pre
-# create dbus user and group
-getent group messagebus >/dev/null || groupadd -f -g messagebus -r messagebus
-if ! getent passwd messagebus >/dev/null ; then
-    if ! getent passwd messagebus >/dev/null ; then
-	useradd -r -u messagebus -g messagebus -d '/' -s /sbin/nologin -c "System message bus" messagebus
-    else
-	useradd -r -g messagebus -d '/' -s /sbin/nologin -c "System message bus" messagebus
-    fi
-fi
-exit 0
+%sysusers_create_package %{name} %{S:1}
 
 %post
 %systemd_post dbus-broker.service
@@ -86,17 +81,6 @@ if [ $2 -eq 0 ] && [ -x /usr/bin/systemctl ] ; then
     systemctl --no-reload --global preset dbus-broker.service || :
 fi
 
-%triggerin -- setup
-if [ $1 -ge 2 ] || [ $2 -ge 2 ]; then
-    if ! getent group messagebus >/dev/null 2>&1; then
-	groupadd -r messagebus 2>/dev/null || :
-    fi
-
-    if ! getent passwd messagebus >/dev/null 2>&1; then
-	useradd -r -g messagebus -d '/' -s /sbin/nologin -c "System message bus" messagebus 2>/dev/null ||:
-    fi
-fi
-
 %files
 %{_presetdir}/86-%{name}.preset
 %{_bindir}/dbus-broker
@@ -104,3 +88,4 @@ fi
 %{_unitdir}/dbus-broker.service
 %{_journalcatalogdir}/%{name}*.catalog
 %{_userunitdir}/dbus-broker.service
+%{_sysusersdir}/%{name}.conf
