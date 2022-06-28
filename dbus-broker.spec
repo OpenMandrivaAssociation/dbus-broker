@@ -7,7 +7,7 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	31
-Release:	5
+Release:	6
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
@@ -22,7 +22,7 @@ BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(libcap-ng)
 Requires:	dbus-common
-Requires(pre):	shadow
+%{?systemd_ordering}
 %rename dbus
 
 %description
