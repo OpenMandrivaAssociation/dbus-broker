@@ -2,12 +2,12 @@
 %define major 3
 %define libname %mklibname dbus- %{api} %{major}
 %define devname %mklibname -d dbus- %{api}
-%global optflags %{optflags} -O3
+%global optflags %{optflags} -Oz
 
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	33
-Release:	1
+Release:	2
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
