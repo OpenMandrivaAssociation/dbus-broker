@@ -45,6 +45,11 @@ recent Linux kernel releases.
 %install
 %meson_install
 
+%if %{cross_compiling}
+# FIXME fix the problem instead of the symptoms...
+mv %{buildroot}%{_prefix}/%{_target_platform}/%{_prefix}/lib %{buildroot}%{_prefix}
+%endif
+
 install -d %{buildroot}%{_presetdir}
 cat > %{buildroot}%{_presetdir}/86-%{name}.preset << EOF
 enable %{name}.service
