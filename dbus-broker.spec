@@ -6,15 +6,15 @@
 
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
-Version:	36
+Version:	37
 Release:	1
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
 Source0:	https://github.com/bus1/dbus-broker/releases/download/v%{version}/dbus-broker-%{version}.tar.xz
 Source1:	dbus-broker.sysusers
-Patch0:		dbus-broker-23-no-quota-for-root.patch
-Patch1:		https://raw.githubusercontent.com/clearlinux-pkgs/dbus-broker/master/use-private-network.patch
+# dropped (no longer applies): Patch0:		dbus-broker-23-no-quota-for-root.patch
+# dropped (no longer applies): Patch1:		https://raw.githubusercontent.com/clearlinux-pkgs/dbus-broker/master/use-private-network.patch
 BuildRequires:	meson
 BuildRequires:	systemd-rpm-macros
 BuildRequires:	pkgconfig(libsystemd)
