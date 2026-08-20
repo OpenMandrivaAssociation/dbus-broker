@@ -7,7 +7,7 @@
 Summary:	Linux D-Bus Message Broker
 Name:		dbus-broker
 Version:	37
-Release:	1
+Release:	2
 License:	ASL 2.0
 Group:		System/Servers
 Url:		https://github.com/bus1/dbus-broker
@@ -44,11 +44,6 @@ recent Linux kernel releases.
 
 %install
 %meson_install
-
-%if %{cross_compiling}
-# FIXME fix the problem instead of the symptoms...
-mv %{buildroot}%{_prefix}/%{_target_platform}/%{_prefix}/lib %{buildroot}%{_prefix}
-%endif
 
 install -d %{buildroot}%{_presetdir}
 cat > %{buildroot}%{_presetdir}/86-%{name}.preset << EOF
